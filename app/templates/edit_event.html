@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Event - {{ event.event_name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">Edit Event</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('events.edit_event', event_id=event.event_id) }}" class="needs-validation" novalidate>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Event Title <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ event.event_name }}" required maxlength="150">
+                        <div class="invalid-feedback">Please provide a valid title (max 150 chars).</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="event_type" class="form-label">Event Type <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="event_type" name="event_type" value="{{ event.event_type }}" required maxlength="50">
+                            <div class="invalid-feedback">Please provide an event type.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="capacity" class="form-label">Capacity <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="capacity" name="capacity" value="{{ event.capacity }}" required min="1">
+                            <div class="invalid-feedback">Capacity must be greater than 0.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" maxlength="500">{{ event.description }}</textarea>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="event_date" class="form-label">Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="event_date" name="event_date" value="{{ event.event_date.strftime('%Y-%m-%d') }}" required>
+                            <div class="invalid-feedback">Please select a future date.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="event_time" class="form-label">Time <span class="text-danger">*</span></label>
+                            <input type="time" class="form-control" id="event_time" name="event_time" value="{{ event.event_time.strftime('%H:%M') }}" required>
+                            <div class="invalid-feedback">Please select a time.</div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="venue" class="form-label">Venue <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="venue" name="venue" value="{{ event.venue }}" required maxlength="100">
+                            <div class="invalid-feedback">Please provide a venue.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="organizer" class="form-label">Organizer <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="organizer" name="organizer" value="{{ event.organizer }}" required maxlength="100">
+                            <div class="invalid-feedback">Please provide an organizer.</div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                        <a href="{{ url_for('events.view_event', event_id=event.event_id) }}" class="btn btn-secondary me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-warning">Update Event</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Bootstrap client-side validation
+    (function () {
+        'use strict'
+        var forms = document.querySelectorAll('.needs-validation')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+
+        // Ensure date is not in the past
+        var dateInput = document.getElementById('event_date');
+        var today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+    })()
+</script>
+{% endblock %}
