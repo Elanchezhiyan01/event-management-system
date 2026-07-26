@@ -1,57 +1,63 @@
 # Event Management System
 
 ## Project Overview
-A robust, web-based platform for organizing, managing, and registering for events. Built with Flask, SQLAlchemy, and Bootstrap, this system streamlines the event management process for both administrators and participants, offering a seamless user experience.
+The Event Management System is a robust, web-based platform designed for organizing, managing, and registering for events. Built from the ground up with Python, Flask, SQLAlchemy, and Bootstrap, this application streamlines event coordination for administrators while offering a highly responsive, seamless user experience for participants.
+
+### Project Objectives
+- Provide a secure and intuitive platform for event registration.
+- Enable administrators to actively manage event lifecycle and track participant metrics.
+- Deliver automated, reliable email notifications without interrupting the user experience.
+- Maintain a clean, scalable architectural pattern for future enterprise deployment.
+
+## Technology Stack
+
+### Backend
+- **Python**: Core programming language.
+- **Flask**: Web framework providing routing and application state.
+- **SQLAlchemy**: ORM for database modeling and query execution.
+- **Flask-Login**: Session management and authentication.
+- **Flask-WTF**: Form validation and Cross-Site Request Forgery (CSRF) protection.
+- **Flask-Mailman**: Asynchronous email delivery integration.
+
+### Database
+- **PostgreSQL**: Production database (compatible with Supabase).
+- **SQLite**: Memory-based database utilized exclusively for automated testing.
+
+### Frontend
+- **HTML5 & CSS3**: Core structural and styling languages.
+- **Bootstrap 5**: Responsive layout framework and component library.
+- **JavaScript**: Client-side logic for dynamic UI elements.
+
+### Testing
+- **Pytest**: Automated testing framework.
+- **pytest-cov**: Test coverage reporting.
 
 ## Features
-- **User Authentication**: Secure registration and login functionality.
-- **Interactive Dashboard**: A comprehensive overview of system statistics (Total Users, Total Events, Total Registrations, Active Events).
-- **Event Management**: Full CRUD operations to create, read, update, and delete events with details like date, time, venue, organizer, and capacity.
-- **Event Registration**: Users can register for events, view their upcoming registrations, and cancel them if needed.
-- **Search & Filtering**: Easily find events by searching titles, or filtering by venue, organizer, and specific dates.
-- **Responsive UI**: A polished, modern interface built with Bootstrap 5 and Bootstrap Icons, fully responsive for desktop and mobile devices.
-- **Robust Error Handling**: Graceful error handling for database operations and form submissions, ensuring application stability.
+- **Authentication**: Secure user registration, login, logout, and active-session management.
+- **Authorization (RBAC)**: Strict Role-Based Access Control enforcing `admin` and `user` privileges at both the UI and routing layers.
+- **Event Management**: Full CRUD (Create, Read, Update, Delete) capabilities for administrators to govern events.
+- **Registration Management**: Participants can browse events, register, view registration histories, and cancel bookings.
+- **Participants Management**: Dedicated administrative dashboard tracking event capacity, user details, and registration dates.
+- **Email Notifications**: Automated HTML/TXT email dispatch for registration confirmations, cancellations, event updates, and 24-hour reminders.
+- **Responsive UI**: Fully mobile-responsive interface utilizing a polished Bootstrap 5 design.
+- **CSRF Protection**: Comprehensive endpoint security via Flask-WTF preventing forged requests.
+- **Automated Testing**: 100% passing integration suite with >80% coverage ensuring stability across services.
 
-## Technologies Used
-- **Backend**: Python 3, Flask, Flask-Login
-- **Database**: PostgreSQL / SQLite (via Flask-SQLAlchemy and psycopg)
-- **Frontend**: HTML5, CSS3, Bootstrap 5, Bootstrap Icons
-- **Environment Management**: python-dotenv
+## Project Architecture
+The repository adheres to strict software engineering design patterns to ensure maintainability:
+- **Application Factory**: Configures and initializes the Flask application dynamically, allowing seamless switching between Testing and Production environments.
+- **Blueprints**: Modules are split into logical routing components (`auth`, `events`, `registrations`, `dashboard`).
+- **Service Layer**: Extracts heavy business logic, database transactions, and eager-loading optimizations out of the controllers to keep routes exclusively focused on HTTP responses.
+- **Templates & Static Files**: Leverages Jinja2 for dynamic HTML generation paired with isolated CSS/JS assets.
 
-## Project Structure
-```text
-event_management_system/
-│
-├── app/                        # Main application package
-│   ├── routes/                 # Blueprint modules for routing
-│   │   ├── auth.py             # Authentication routes
-│   │   ├── dashboard.py        # Dashboard routes
-│   │   ├── events.py           # Event management routes
-│   │   └── registrations.py    # Registration management routes
-│   ├── templates/              # HTML templates (Jinja2)
-│   ├── __init__.py             # App factory and blueprint registration
-│   ├── extensions.py           # Flask extensions (db, login_manager)
-│   └── models.py               # SQLAlchemy database models
-│
-├── .env.example                # Example environment variables
-├── .gitignore                  # Git ignore rules
-├── config.py                   # Application configuration
-├── create_db.py                # Script to initialize the database
-├── README.md                   # Project documentation
-├── requirements.txt            # Python dependencies
-├── run.py                      # Application entry point
-└── test_crud.py                # Automated testing script
-```
-
-## Installation Instructions
-
-### Prerequisites
+## System Requirements
 - Python 3.8+
+- PostgreSQL 12+ (if deploying to production)
 - pip (Python package installer)
-- Git (optional, for cloning)
 
-### Steps
-1. **Clone the repository** (if applicable) or navigate to the project directory:
+## Quick Start & Installation
+
+1. **Clone the repository**:
    ```bash
    git clone <repository_url>
    cd event_management_system
@@ -74,51 +80,99 @@ event_management_system/
    pip install -r requirements.txt
    ```
 
-## Environment Variable Setup
-This project uses `.env` files to securely load configuration variables.
+## Environment Variables
+The application relies on a `.env` file to securely load configuration variables. 
 
 1. Create a file named `.env` in the root directory.
-2. Copy the contents of `.env.example` into `.env`.
-3. Replace the placeholder values with your actual configuration:
+2. Copy the structure from `.env.example`:
    ```env
-   # Example .env configuration
-   SUPABASE_DB_URL=postgresql://username:password@localhost:5432/event_db
+   # Database Connection
+   SUPABASE_DB_URL=postgresql://username:password@host:6543/postgres
+
+   # Security
    SECRET_KEY=your_secure_random_secret_key
+
+   # SMTP Configuration
+   MAIL_SERVER=smtp.example.com
+   MAIL_PORT=587
+   MAIL_USE_TLS=True
+   MAIL_USERNAME=your_email@example.com
+   MAIL_PASSWORD=your_email_password
+   MAIL_DEFAULT_SENDER=noreply@example.com
    ```
-   *(Note: The application will raise an error if `SECRET_KEY` is not provided).*
+*(Do not commit your `.env` file to version control. It is explicitly ignored in `.gitignore`.)*
 
-## Database Setup
-Run the database creation script to set up the database tables (this uses the connection string defined in your `.env`):
+## Database Setup & Running the Application
+
+1. **Initialize the Database**:
+   Run the database creation script to construct all required tables (utilizing the URI defined in your `.env`):
+   ```bash
+   python create_db.py
+   ```
+
+2. **Start the Application**:
+   Launch the Flask development server:
+   ```bash
+   python run.py
+   ```
+   The application will be accessible at `http://127.0.0.1:5000`.
+
+## Testing
+
+The project contains a comprehensive automated test suite utilizing `pytest`.
+
+To run the tests and generate a coverage report:
 ```bash
-python create_db.py
+pytest tests/ --cov=app --cov-report=term-missing
 ```
 
-## Running the Application
-Start the Flask development server:
-```bash
-python run.py
-```
-The application will be accessible at `http://127.0.0.1:5000`.
+**Expected Output:**
+You should see 40 tests pass with an aggregate coverage exceeding 80%, signifying fully verified structural integrity across all core components.
 
-## Usage Guide
-1. **Register/Login**: Start by registering a new account or logging in with an existing one.
-2. **Dashboard**: Upon login, you will land on the Dashboard, viewing high-level system metrics.
-3. **Browse Events**: Navigate to the "Events" page to view all available events. Use the search bar or filters to find specific events.
-4. **Create Event**: Click "Create Event" in the navigation bar to add a new event to the system.
-5. **Register for Event**: On an event's details page, click "Register Now" to secure your spot.
-6. **My Registrations**: View and manage all your event registrations in the "My Registrations" section.
+## Folder Structure
+```text
+event_management_system/
+├── app/
+│   ├── routes/             # Blueprint routing controllers
+│   ├── services/           # Business logic and database transactions
+│   ├── static/             # CSS, JS, and image assets
+│   ├── templates/          # Jinja2 HTML templates
+│   ├── __init__.py         # App factory configuration
+│   ├── extensions.py       # Flask extensions initialization
+│   ├── exceptions.py       # Custom service exceptions
+│   ├── decorators.py       # RBAC wrappers
+│   └── models.py           # SQLAlchemy database schemas
+├── scripts/                # Historical or debugging utility scripts
+├── tests/                  # Automated integration test suite
+├── .env.example            # Environment configuration template
+├── .gitignore              # Ignored files configuration
+├── config.py               # Environment parsing
+├── create_db.py            # Database initialization script
+├── LICENSE                 # MIT License specification
+├── README.md               # Project documentation
+├── requirements.txt        # Frozen dependency map
+└── run.py                  # Application entry point
+```
 
 ## Screenshots
-*(Add screenshots of the application here once deployed)*
-- **Dashboard**: `![Dashboard UI](link-to-image)`
-- **Event Listings**: `![Events UI](link-to-image)`
-- **Registration Flow**: `![Registration UI](link-to-image)`
+- **Home Page**: `![Home UI](link-to-home-image)`
+- **Login**: `![Login UI](link-to-login-image)`
+- **Register**: `![Register UI](link-to-register-image)`
+- **Dashboard**: `![Dashboard UI](link-to-dashboard-image)`
+- **Events List**: `![Events UI](link-to-events-image)`
+- **Event Details**: `![Event Details UI](link-to-event-details-image)`
+- **Participants**: `![Participants UI](link-to-participants-image)`
+- **My Registrations**: `![My Registrations UI](link-to-registrations-image)`
 
-## Future Improvements
-- **Pagination**: Add pagination to the events list for better scalability.
-- **Admin Roles**: Introduce a strict 'Admin' role to restrict event creation and deletion.
-- **Email Notifications**: Integrate a mailing service (like SendGrid) for registration confirmations.
-- **API Endpoints**: Build a RESTful API to support mobile applications.
+## Known Limitations
+- Background email processing currently depends heavily on the Flask-Mailman fault-tolerance wrapping. For extreme high-volume production loads (10,000+ emails), integration with Celery or Redis for dedicated asynchronous task queuing would be required.
+
+## Future Enhancements
+- **Password Reset**: Implement secure token-based email password recovery.
+- **Event Images**: Allow organizers to upload event banners via AWS S3 or Supabase Storage.
+- **Calendar Integration**: Provide `.ics` file generation and Google Calendar deep links for registered events.
+- **REST API**: Decouple the backend to serve a standalone JSON API for mobile applications.
+- **Dockerization & CI/CD**: Containerize the environment using Docker and implement GitHub Actions for automated deployment.
 
 ## License
-MIT License. See `LICENSE` for more information.
+This project is licensed under the MIT License. See the `LICENSE` file for full details.

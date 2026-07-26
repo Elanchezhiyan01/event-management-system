@@ -11,7 +11,7 @@
     <div class="col">
         <div class="card h-100 shadow-sm text-center border-primary">
             <div class="card-body">
-                <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
+                <i aria-hidden="true" class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
                 <h5 class="card-title mt-2">Total Users</h5>
                 <h2 class="card-text fw-bold">{{ total_users }}</h2>
             </div>
@@ -20,7 +20,7 @@
     <div class="col">
         <div class="card h-100 shadow-sm text-center border-success">
             <div class="card-body">
-                <i class="bi bi-calendar-event-fill text-success" style="font-size: 2rem;"></i>
+                <i aria-hidden="true" class="bi bi-calendar-event-fill text-success" style="font-size: 2rem;"></i>
                 <h5 class="card-title mt-2">Total Events</h5>
                 <h2 class="card-text fw-bold">{{ total_events }}</h2>
             </div>
@@ -29,7 +29,7 @@
     <div class="col">
         <div class="card h-100 shadow-sm text-center border-info">
             <div class="card-body">
-                <i class="bi bi-card-checklist text-info" style="font-size: 2rem;"></i>
+                <i aria-hidden="true" class="bi bi-card-checklist text-info" style="font-size: 2rem;"></i>
                 <h5 class="card-title mt-2">Total Registrations</h5>
                 <h2 class="card-text fw-bold">{{ total_registrations }}</h2>
             </div>
@@ -38,7 +38,7 @@
     <div class="col">
         <div class="card h-100 shadow-sm text-center border-warning">
             <div class="card-body">
-                <i class="bi bi-lightning-fill text-warning" style="font-size: 2rem;"></i>
+                <i aria-hidden="true" class="bi bi-lightning-fill text-warning" style="font-size: 2rem;"></i>
                 <h5 class="card-title mt-2">Active Events</h5>
                 <h2 class="card-text fw-bold">{{ active_events }}</h2>
             </div>
@@ -54,9 +54,9 @@
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <a href="{{ url_for('events.create_event') }}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Create New Event</a>
-                    <a href="{{ url_for('events.list_events') }}" class="btn btn-outline-secondary"><i class="bi bi-calendar3"></i> Browse All Events</a>
-                    <a href="{{ url_for('registrations.list_registrations') }}" class="btn btn-outline-info"><i class="bi bi-person-lines-fill"></i> View My Registrations</a>
+                    <a href="{{ url_for('events.create_event') }}" class="btn btn-primary"><i aria-hidden="true" class="bi bi-plus-circle"></i> Create New Event</a>
+                    <a href="{{ url_for('events.list_events') }}" class="btn btn-outline-secondary"><i aria-hidden="true" class="bi bi-calendar3"></i> Browse All Events</a>
+                    <a href="{{ url_for('registrations.list_registrations') }}" class="btn btn-outline-info"><i aria-hidden="true" class="bi bi-person-lines-fill"></i> View My Registrations</a>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
             </div>
             <div class="card-body">
                 <p>Welcome to the Event Management System Dashboard. Here you can monitor system activity, view important statistics, and access quick actions to manage events and registrations.</p>
-                <p class="mb-0 text-muted"><small><i class="bi bi-info-circle"></i> Connected as {{ current_user.full_name }} ({{ current_user.role }})</small></p>
+                <p class="mb-0 text-muted"><small><i aria-hidden="true" class="bi bi-info-circle"></i> Connected as {{ current_user.full_name }} ({{ current_user.role }})</small></p>
             </div>
         </div>
     </div>

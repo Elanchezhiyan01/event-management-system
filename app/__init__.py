@@ -1,7 +1,8 @@
 from flask import Flask, redirect, url_for, render_template
 from config import Config
-from app.extensions import db, login_manager
+from app.extensions import db, login_manager, csrf, mail
 from flask_login import current_user
+from flask_wtf.csrf import CSRFError
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -10,6 +11,8 @@ def create_app(config_class=Config):
     # Initialize extensions
     db.init_app(app)
     login_manager.init_app(app)
+    csrf.init_app(app)
+    mail.init_app(app)
 
     # Register blueprints
     from app.routes.auth import auth_bp
@@ -28,9 +31,17 @@ def create_app(config_class=Config):
             return redirect(url_for('dashboard.index'))
         return redirect(url_for('auth.login'))
 
+    @app.errorhandler(403)
+    def forbidden_error(e):
+        return render_template('403.html'), 403
+
     @app.errorhandler(404)
     def page_not_found(e):
         return render_template('404.html'), 404
+
+    @app.errorhandler(CSRFError)
+    def handle_csrf_error(e):
+        return render_template('400.html', reason=e.description), 400
 
     @app.errorhandler(500)
     def internal_server_error(e):

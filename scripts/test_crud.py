@@ -4,7 +4,12 @@ from app.models import User, Event, Registration
 from datetime import datetime, date, time
 from sqlalchemy import text
 
-app = create_app()
+from config import Config
+
+class TestConfig(Config):
+    WTF_CSRF_ENABLED = False
+
+app = create_app(TestConfig)
 
 def test_crud():
     with app.app_context():

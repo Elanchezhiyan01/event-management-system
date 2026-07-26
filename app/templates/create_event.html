@@ -10,7 +10,8 @@
                 <h4 class="mb-0">Create New Event</h4>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ url_for('events.create_event') }}" class="needs-validation" novalidate>
+                <form method="POST" action="{{ url_for('events.create_event') }}" class="needs-validation form-loading" novalidate>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="mb-3">
                         <label for="title" class="form-label">Event Title <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="title" name="title" required maxlength="150">
@@ -63,34 +64,11 @@
 
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                         <a href="{{ url_for('events.list_events') }}" class="btn btn-secondary me-md-2">Cancel</a>
-                        <button type="submit" class="btn btn-success">Create Event</button>
+                        <button type="submit" class="btn btn-primary">Create Event</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    // Bootstrap client-side validation
-    (function () {
-        'use strict'
-        var forms = document.querySelectorAll('.needs-validation')
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-
-        // Ensure date is not in the past
-        var dateInput = document.getElementById('event_date');
-        var today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
-    })()
-</script>
 {% endblock %}

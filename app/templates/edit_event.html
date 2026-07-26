@@ -10,7 +10,8 @@
                 <h4 class="mb-0">Edit Event</h4>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ url_for('events.edit_event', event_id=event.event_id) }}" class="needs-validation" novalidate>
+                <form method="POST" action="{{ url_for('events.edit_event', event_id=event.event_id) }}" class="needs-validation form-loading" novalidate>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                     <div class="mb-3">
                         <label for="title" class="form-label">Event Title <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="title" name="title" value="{{ event.event_name }}" required maxlength="150">
@@ -70,27 +71,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    // Bootstrap client-side validation
-    (function () {
-        'use strict'
-        var forms = document.querySelectorAll('.needs-validation')
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-
-        // Ensure date is not in the past
-        var dateInput = document.getElementById('event_date');
-        var today = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', today);
-    })()
-</script>
 {% endblock %}

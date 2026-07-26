@@ -1,0 +1,184 @@
+/* 
+ * Event Management System - Primary Stylesheet
+ * 
+ * Sections:
+ * 1. Variables
+ * 2. Base Styles
+ * 3. Typography
+ * 4. Navbar & Footer
+ * 5. Cards
+ * 6. Tables
+ * 7. Forms
+ * 8. Buttons
+ * 9. Alerts
+ * 10. Empty States
+ * 11. Error Pages
+ * 12. Responsive Utilities
+ */
+
+/* ==========================================================================
+   1. Variables
+   ========================================================================== */
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --bg-light: #f8f9fa;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --card-shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.1);
+    --border-radius: 0.5rem;
+}
+
+/* ==========================================================================
+   2. Base Styles
+   ========================================================================== */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-light);
+    /* padding-top handled by .sticky-top in bootstrap */
+}
+
+main.content-wrapper {
+    flex: 1;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+/* ==========================================================================
+   3. Typography
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+.text-muted-custom {
+    color: #6c757d;
+}
+
+/* ==========================================================================
+   4. Navbar & Footer
+   ========================================================================== */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+footer {
+    background-color: #212529;
+    color: #f8f9fa;
+    padding: 1.5rem 0;
+    margin-top: auto;
+}
+
+/* ==========================================================================
+   5. Cards
+   ========================================================================== */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+}
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    font-weight: 600;
+}
+.card-footer {
+    background-color: transparent;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+/* ==========================================================================
+   6. Tables
+   ========================================================================== */
+.table-responsive {
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+.table th {
+    font-weight: 600;
+    border-top: none;
+}
+
+/* ==========================================================================
+   7. Forms
+   ========================================================================== */
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+.required-asterisk {
+    color: #dc3545;
+    margin-left: 2px;
+}
+
+/* ==========================================================================
+   8. Buttons
+   ========================================================================== */
+.btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s;
+}
+
+/* ==========================================================================
+   9. Alerts
+   ========================================================================== */
+.alert {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* ==========================================================================
+   10. Empty States
+   ========================================================================== */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+.empty-state-icon {
+    font-size: 4rem;
+    color: #dee2e6;
+    margin-bottom: 1rem;
+}
+
+/* ==========================================================================
+   11. Error Pages
+   ========================================================================== */
+.error-page {
+    text-align: center;
+    padding: 5rem 1rem;
+}
+.error-code {
+    font-size: 6rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+/* ==========================================================================
+   12. Responsive Utilities
+   ========================================================================== */
+@media (max-width: 768px) {
+    .empty-state {
+        padding: 2rem 1rem;
+    }
+}
